@@ -138,14 +138,15 @@ body {
 
 .hero-eyebrow {
   display: inline-block;
-  color: #F5D08A;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
-  padding: 0.4rem 0.9rem;
-  background: rgba(28, 25, 23, 0.55);
-  border: 1px solid rgba(219, 130, 31, 0.35);
+  color: #F5D08A !important;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.9), 0 0 24px rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 1rem;
+  background: rgba(28, 25, 23, 0.88);
+  border: 1px solid rgba(219, 130, 31, 0.45);
   border-radius: 4px;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
 .hero-title {

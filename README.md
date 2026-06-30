@@ -145,7 +145,22 @@ Logo, photography, menu data, and brand elements are property of W Steak Restaur
 
 ## Author
 
-**Zirvey** — [temirlankakishev@gmail.com](mailto:temirlankakishev@gmail.com)
+**Zirvey**
+
+---
+
+## Presentation
+
+PDF-prezentace pro majitele provozovny (česky, 8 snímků):
+
+📄 [`docs/W-Steak-Restaurant-Redesign-Proposal.pdf`](docs/W-Steak-Restaurant-Redesign-Proposal.pdf)
+
+Пересобрать:
+
+```bash
+npm install puppeteer --no-save
+npm run pdf
+```
 
 ---
 

@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "screenshots": "node scripts/capture-screenshots.mjs"
+    "screenshots": "node scripts/capture-screenshots.mjs",
+    "pdf": "node scripts/generate-pdf.mjs"
   }
 }
