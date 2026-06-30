@@ -1,0 +1,8 @@
+{
+  "name": "w-steak-restaurant-landing-page",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "screenshots": "node scripts/capture-screenshots.mjs"
+  }
+}

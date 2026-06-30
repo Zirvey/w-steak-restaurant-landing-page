@@ -7,6 +7,26 @@ A modern UI/UX concept for the landing page of **W Steak Restaurant — Meat, Wi
 [![Live Demo](https://img.shields.io/badge/demo-GitHub%20Pages-DB821F?style=for-the-badge)](https://zirvey.github.io/w-steak-restaurant-landing-page/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-44403C?style=for-the-badge)](LICENSE)
 
+![Hero section — desktop preview](docs/screenshots/hero-desktop.jpg)
+
+---
+
+## Preview
+
+### Desktop
+
+| Hero | Experience |
+|:---:|:---:|
+| ![Hero](docs/screenshots/hero-desktop.jpg) | ![Experience bento grid](docs/screenshots/experience.jpg) |
+
+| Menu highlights | About section |
+|:---:|:---:|
+| ![Menu](docs/screenshots/menu.jpg) | ![About](docs/screenshots/about.jpg) |
+
+### Mobile
+
+![Mobile hero](docs/screenshots/hero-mobile.jpg)
+
 ---
 
 ## About this project
@@ -64,6 +84,14 @@ python3 -m http.server 8080
 
 Or open `index.html` directly in a browser.
 
+### Regenerate screenshots
+
+```bash
+python3 -m http.server 8080 &
+npm install puppeteer --no-save
+npm run screenshots
+```
+
 ---
 
 ## Project structure
@@ -77,6 +105,8 @@ Or open `index.html` directly in a browser.
 │   ├── favicon.ico
 │   └── images/             # Photography from wrestaurant.cz
 ├── design-system/          # Persisted design system (UI UX Pro Max)
+├── docs/screenshots/       # README preview images
+├── scripts/capture-screenshots.mjs
 ├── LICENSE                 # MIT — code in this repo
 ├── NOTICE.md               # Third-party assets & trademarks
 └── DISCLAIMER.md           # Unofficial concept notice
