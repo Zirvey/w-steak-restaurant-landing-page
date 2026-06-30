@@ -7,14 +7,16 @@
   const mobileMenuClose = document.getElementById('mobile-menu-close');
   const stickyCta = document.getElementById('sticky-cta');
   const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+  const heroParallax = document.getElementById('hero-parallax');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.body.classList.add('is-loaded');
 
   // Navbar scroll effect
   function handleScroll() {
-    if (window.scrollY > 80) {
-      nav?.classList.add('shadow-lg');
-    } else {
-      nav?.classList.remove('shadow-lg');
-    }
+    const scrolled = window.scrollY > 60;
+    nav?.classList.toggle('is-scrolled', scrolled);
+    nav?.classList.toggle('shadow-lg', scrolled);
 
     if (window.scrollY > 600) {
       stickyCta?.classList.add('show');
@@ -23,6 +25,11 @@
     }
 
     updateActiveNavLink();
+
+    if (!prefersReducedMotion && heroParallax) {
+      const offset = Math.min(window.scrollY * 0.28, 140);
+      heroParallax.style.transform = `translate3d(0, ${offset}px, 0) scale(1.05)`;
+    }
   }
 
   // Active nav link on scroll
@@ -66,8 +73,17 @@
     link.addEventListener('click', closeMobileMenu);
   });
 
+  // Stagger delays for grouped reveals
+  document.querySelectorAll('[data-stagger]').forEach((group) => {
+    const items = group.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    items.forEach((el, index) => {
+      el.style.transitionDelay = `${index * 0.1}s`;
+    });
+  });
+
   // Scroll reveal
-  const revealElements = document.querySelectorAll('.reveal');
+  const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+  const accentLines = document.querySelectorAll('.reveal-line');
 
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver(
@@ -79,12 +95,74 @@
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.12, rootMargin: '0px 0px -50px 0px' }
     );
 
     revealElements.forEach((el) => revealObserver.observe(el));
+
+    const lineObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            lineObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    accentLines.forEach((el) => lineObserver.observe(el));
   } else {
     revealElements.forEach((el) => el.classList.add('visible'));
+    accentLines.forEach((el) => el.classList.add('is-visible'));
+  }
+
+  // Animated counters
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.counter, 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1400;
+    const start = performance.now();
+
+    if (prefersReducedMotion || Number.isNaN(target)) {
+      el.textContent = `${target}${suffix}`;
+      el.classList.add('is-counted');
+      return;
+    }
+
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = Math.floor(target * eased);
+      el.textContent = `${value}${suffix}`;
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = `${target}${suffix}`;
+        el.classList.add('is-counted');
+      }
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  const counters = document.querySelectorAll('[data-counter]');
+  if (counters.length && 'IntersectionObserver' in window) {
+    const counterObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            counterObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    counters.forEach((el) => counterObserver.observe(el));
   }
 
   // Gallery drag scroll

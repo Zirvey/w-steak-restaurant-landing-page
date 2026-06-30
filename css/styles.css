@@ -12,6 +12,9 @@
   --color-cream: #F5F0EB;
   --font-heading: 'Playfair Display SC', Georgia, serif;
   --font-body: 'Karla', system-ui, sans-serif;
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --anim-duration: 0.65s;
+  --anim-stagger: 0.1s;
 }
 
 *,
@@ -36,6 +39,32 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-animate > * {
+    opacity: 1;
+  }
+
+  .hero-bg-img {
+    transform: none;
+  }
+
+  .accent-line.reveal-line {
+    width: 60px;
+    opacity: 1;
+  }
+
+  .mobile-nav-link {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 body {
@@ -55,6 +84,35 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(219, 130, 31, 0.12);
+  transition:
+    background-color 0.35s var(--ease-out-expo),
+    box-shadow 0.35s var(--ease-out-expo),
+    top 0.35s var(--ease-out-expo),
+    border-color 0.35s var(--ease-out-expo);
+}
+
+.glass-nav.is-scrolled {
+  background: rgba(35, 31, 32, 0.94);
+  border-color: rgba(219, 130, 31, 0.22);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.nav-inner {
+  transition: height 0.35s var(--ease-out-expo);
+}
+
+.nav-logo {
+  transition: height 0.35s var(--ease-out-expo), opacity 0.25s ease;
+}
+
+.glass-nav.is-scrolled .nav-logo {
+  height: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .glass-nav.is-scrolled .nav-logo {
+    height: 2.75rem;
+  }
 }
 
 .glass-card {
@@ -73,12 +131,29 @@ body {
 
 /* Hero overlay gradient */
 .hero-gradient {
-  background: linear-gradient(
-    to bottom,
-    rgba(28, 25, 23, 0.55) 0%,
-    rgba(28, 25, 23, 0.35) 40%,
-    rgba(28, 25, 23, 0.75) 100%
-  );
+  background:
+    linear-gradient(to right, rgba(28, 25, 23, 0.82) 0%, rgba(28, 25, 23, 0.15) 55%),
+    linear-gradient(to top, rgba(28, 25, 23, 0.92) 0%, rgba(28, 25, 23, 0.45) 45%, rgba(28, 25, 23, 0.55) 100%);
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  color: #F5D08A;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
+  padding: 0.4rem 0.9rem;
+  background: rgba(28, 25, 23, 0.55);
+  border: 1px solid rgba(219, 130, 31, 0.35);
+  border-radius: 4px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.hero-title {
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+}
+
+.hero-lead {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
 }
 
 /* Gold accent line */
@@ -86,6 +161,24 @@ body {
   width: 60px;
   height: 2px;
   background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+  transform-origin: left center;
+}
+
+.accent-line.reveal-line {
+  width: 0;
+  opacity: 0;
+  transition:
+    width 0.7s var(--ease-out-expo),
+    opacity 0.4s ease;
+}
+
+.accent-line.reveal-line.is-visible {
+  width: 60px;
+  opacity: 1;
+}
+
+.accent-line.reveal-line.mx-auto {
+  transform-origin: center center;
 }
 
 /* Button styles */
@@ -109,6 +202,11 @@ body {
 .btn-primary:hover {
   background: var(--color-accent-hover);
   box-shadow: 0 8px 24px rgba(219, 130, 31, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 .btn-primary:focus-visible {
@@ -130,13 +228,14 @@ body {
   text-transform: uppercase;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 4px;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   cursor: pointer;
 }
 
 .btn-outline:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: #fff;
+  transform: translateY(-2px);
 }
 
 .btn-outline-dark {
@@ -147,17 +246,31 @@ body {
 .btn-outline-dark:hover {
   background: var(--color-primary);
   color: #fff;
+  transform: translateY(-2px);
 }
 
 /* Menu card hover */
 .menu-card {
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: box-shadow 0.3s var(--ease-out-expo), border-color 0.3s ease, transform 0.3s var(--ease-out-expo);
   cursor: pointer;
 }
 
 .menu-card:hover {
   box-shadow: 0 12px 40px rgba(28, 25, 23, 0.12);
   border-color: rgba(219, 130, 31, 0.3);
+  transform: translateY(-4px);
+}
+
+.menu-card-img {
+  overflow: hidden;
+}
+
+.menu-card-img img {
+  transition: transform 0.55s var(--ease-out-expo);
+}
+
+.menu-card:hover .menu-card-img img {
+  transform: scale(1.06);
 }
 
 /* Bento feature cards */
@@ -192,13 +305,195 @@ body {
 /* Reveal animation */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(28px);
+  transition:
+    opacity var(--anim-duration) var(--ease-out-expo),
+    transform var(--anim-duration) var(--ease-out-expo);
+  will-change: opacity, transform;
 }
 
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.reveal-left {
+  transform: translateX(-36px);
+}
+
+.reveal-left.visible,
+.reveal.reveal-left.visible {
+  transform: translateX(0);
+}
+
+.reveal-right {
+  transform: translateX(36px);
+}
+
+.reveal-right.visible,
+.reveal.reveal-right.visible {
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  transform: scale(0.96);
+}
+
+.reveal-scale.visible {
+  transform: scale(1);
+}
+
+.reveal.reveal-left {
+  transform: translate(-36px, 28px);
+}
+
+.reveal.reveal-left.visible {
+  transform: translate(0, 0);
+}
+
+.reveal.reveal-right {
+  transform: translate(36px, 28px);
+}
+
+.reveal.reveal-right.visible {
+  transform: translate(0, 0);
+}
+
+.reveal.reveal-scale {
+  transform: translateY(28px) scale(0.96);
+}
+
+.reveal.reveal-scale.visible {
+  transform: translateY(0) scale(1);
+}
+
+/* Hero entrance */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroKenBurns {
+  from {
+    transform: scale(1.07);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.hero-bg-img {
+  will-change: transform;
+}
+
+body.is-loaded .hero-bg-img {
+  animation: heroKenBurns 1.6s var(--ease-out-expo) forwards;
+}
+
+.hero-animate > * {
+  opacity: 0;
+}
+
+body.is-loaded .hero-animate > * {
+  animation: heroFadeUp 0.75s var(--ease-out-expo) forwards;
+}
+
+body.is-loaded .hero-animate > *:nth-child(1) { animation-delay: 0.12s; }
+body.is-loaded .hero-animate > *:nth-child(2) { animation-delay: 0.28s; }
+body.is-loaded .hero-animate > *:nth-child(3) { animation-delay: 0.44s; }
+body.is-loaded .hero-animate > *:nth-child(4) { animation-delay: 0.58s; }
+
+.scroll-indicator {
+  opacity: 0;
+  animation: heroFadeUp 0.6s var(--ease-out-expo) 1s forwards;
+}
+
+.scroll-indicator-line {
+  opacity: 0.7;
+}
+
+.stat-value {
+  display: inline-block;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.stat-value.is-counted {
+  animation: statPop 0.45s var(--ease-out-expo);
+}
+
+@keyframes statPop {
+  0% { transform: scale(0.85); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.gallery-item {
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(28, 25, 23, 0.18);
+}
+
+.gallery-item img {
+  transition: transform 0.55s var(--ease-out-expo);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.about-badge {
+  transition: transform 0.5s var(--ease-out-expo), opacity 0.5s ease;
+}
+
+.about-badge.visible {
+  animation: badgeFloat 0.7s var(--ease-out-expo) 0.3s both;
+}
+
+@keyframes badgeFloat {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-nav-link {
+  opacity: 0;
+  transform: translateX(20px);
+  transition:
+    opacity 0.35s var(--ease-out-expo),
+    transform 0.35s var(--ease-out-expo),
+    color 0.2s ease;
+}
+
+.mobile-menu.open .mobile-nav-link {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mobile-menu.open .mobile-nav-link:nth-child(1) { transition-delay: 0.08s; }
+.mobile-menu.open .mobile-nav-link:nth-child(2) { transition-delay: 0.14s; }
+.mobile-menu.open .mobile-nav-link:nth-child(3) { transition-delay: 0.2s; }
+.mobile-menu.open .mobile-nav-link:nth-child(4) { transition-delay: 0.26s; }
+.mobile-menu.open .mobile-nav-link:nth-child(5) { transition-delay: 0.32s; }
+
+.link-arrow svg {
+  transition: transform 0.25s var(--ease-out-expo);
+}
+
+.link-arrow:hover svg {
+  transform: translateX(4px);
 }
 
 /* Sticky reservation bar */
