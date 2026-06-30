@@ -15,6 +15,8 @@
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
   --anim-duration: 0.65s;
   --anim-stagger: 0.1s;
+  --concept-banner-height: 2.875rem;
+  --nav-offset: 1rem;
 }
 
 *,
@@ -72,6 +74,99 @@ body {
   color: var(--color-text);
   background-color: var(--color-bg);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Concept disclaimer banner */
+.concept-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  min-height: var(--concept-banner-height);
+  background: linear-gradient(90deg, #CA8A04, #DB821F);
+  color: #1C1917;
+  border-bottom: 1px solid rgba(28, 25, 23, 0.12);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.concept-banner-inner {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.concept-banner-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.concept-banner-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.concept-banner-text strong {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.concept-banner-sep {
+  margin: 0 0.25rem;
+  opacity: 0.5;
+}
+
+.concept-banner-cs {
+  display: none;
+}
+
+.concept-banner-link {
+  display: inline-block;
+  margin-left: 0.35rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: #1C1917;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.concept-banner-link:hover {
+  opacity: 0.75;
+}
+
+@media (min-width: 640px) {
+  .concept-banner-text {
+    font-size: 0.8125rem;
+  }
+
+  .concept-banner-cs {
+    display: inline;
+  }
+}
+
+#navbar {
+  top: var(--nav-offset);
+}
+
+body.has-concept-banner #navbar {
+  top: calc(var(--concept-banner-height) + 0.5rem);
+}
+
+@media (min-width: 768px) {
+  body.has-concept-banner #navbar {
+    top: calc(var(--concept-banner-height) + var(--nav-offset));
+  }
 }
 
 .font-heading {
